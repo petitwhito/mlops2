@@ -1,6 +1,5 @@
 import requests
 
-# Test endpoint predict
 data = {
     "Age": 50,
     "Sex": 1,
@@ -15,11 +14,14 @@ data = {
     "ST_Slope": 1
 }
 
-response = requests.post("http://127.0.0.1:8000/predict", params=data, timeout=30)
-print("Status code:", response.status_code)
-print("Response text:", response.text)
-if response.status_code == 200:
-    print("Predict response:", response.json())
+for i in range(5):
+    response = requests.post("http://127.0.0.1:8000/predict", params=data, timeout=30)
+    if response.status_code == 200:
+        result = response.json()
+        print(f"Prediction {i+1}: {result['prediction']} (model: {result['model_used']})")
 
 response = requests.post("http://127.0.0.1:8000/update-model", timeout=30)
 print("Update model response:", response.json())
+
+response = requests.post("http://127.0.0.1:8000/accept-next-model", timeout=30)
+print("Accept next model response:", response.json())

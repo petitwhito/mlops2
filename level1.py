@@ -67,7 +67,6 @@ with mlflow.start_run() as run:
     mlflow.log_metric("accuracy", accuracy)
     mlflow.sklearn.log_model(model, "heart_disease_model", signature=infer_signature(X_train, y_train))
     
-    # Enregistrer le modèle dans le model registry
     model_uri = f"runs:/{run.info.run_id}/heart_disease_model"
     mlflow.register_model(model_uri, "heart_disease_model")
 
